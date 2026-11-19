@@ -1,0 +1,37 @@
+{
+  "n_linhas": 322,
+  "anos": [
+    2000,
+    2022
+  ],
+  "n_anos": 23,
+  "nulos_total_cursos": 0,
+  "capitais_distintas": [
+    "Belo Horizonte",
+    "Belém",
+    "Brasília",
+    "Curitiba",
+    "Fortaleza",
+    "Goiânia",
+    "Manaus",
+    "Porto Alegre",
+    "Recife",
+    "Rio de Janeiro",
+    "Salvador",
+    "São Paulo"
+  ],
+  "duplicatas_ano_localidade": 0,
+  "abas_com_valor_textual": [
+    2022
+  ],
+  "anos_onde_soma_capitais_difere_do_agregado": [],
+  "erro_max_pct_vs_recalculado_pp": 0.0495,
+  "anos_com_erro_pct_maior_que_0_05pp": [],
+  "abas_descartadas": [
+    "ESRI_MAPINFO_SHEET"
+  ],
+  "arquivo_bruto": {
+    "nome": "913.xlsx",
+    "sha256": "bf89ea82b834ee954e4d3cbc56d486bbf7612738f271a4133b89275242df77e6"
+  }
+}

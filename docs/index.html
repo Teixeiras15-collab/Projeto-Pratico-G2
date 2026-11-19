@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expansão e desconcentração dos cursos de graduação presenciais nas 12 maiores capitais brasileiras (2000–2022)</title>
+<meta name="description" content="Análise de 23 anos de dados do INEP/Data.Rio sobre cursos de graduação presenciais no Brasil e nas 12 maiores capitais.">
+<meta name="author" content="João Victor Teixeira, Renan Braga Gomes">
+<meta name="keywords" content="ensino superior, cursos de graduação, capitais brasileiras, INEP, análise de dados, FAIR">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js" charset="utf-8"></script>
+<script src="assets/data.js"></script>
+<style>
+:root{--ink:#1d2327;--muted:#5b6670;--line:#dde2e6;--bg:#fff;--soft:#f5f7f9;--acc:#0b5cab;--warn:#fff7e6}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:17px/1.65 Georgia,"Times New Roman",serif;color:var(--ink);background:var(--bg)}
+header{background:var(--soft);border-bottom:1px solid var(--line);padding:2.2rem 1rem 1.6rem}
+.wrap{max-width:860px;margin:0 auto;padding:0 1rem}
+header .wrap{padding:0}
+h1{font-size:clamp(1.5rem,4.2vw,2.15rem);line-height:1.25;margin:.2rem 0 1rem}
+h2{font-size:1.45rem;margin:2.6rem 0 .6rem;border-bottom:2px solid var(--line);padding-bottom:.25rem}
+h3{font-size:1.15rem;margin:1.8rem 0 .4rem}
+.meta{font:.92rem/1.5 system-ui,sans-serif;color:var(--muted)}
+.meta strong{color:var(--ink)}
+.badges{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem;font:600 .78rem system-ui,sans-serif}
+.badges span,.badges a{padding:.28rem .6rem;border-radius:4px;background:#e8eef5;color:#234;text-decoration:none}
+.badges a.gh{background:#24292f;color:#fff}
+.abstract{background:var(--soft);border-left:4px solid var(--acc);padding:1rem 1.2rem;margin:1.5rem 0;font-size:.97rem}
+.abstract h2{border:0;margin:0 0 .4rem;font-size:1.1rem}
+nav{font:.9rem system-ui,sans-serif;margin:1rem 0}
+nav a{margin-right:.9rem;color:var(--acc);text-decoration:none}
+figure{margin:1.6rem 0}
+figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
+figcaption{font:.85rem/1.45 system-ui,sans-serif;color:var(--muted);margin-top:.4rem}
+.plot{width:100%;height:430px;border:1px solid var(--line);border-radius:4px}
+pre{background:#14181c;color:#e6edf3;padding:1rem;border-radius:6px;overflow-x:auto;font:.82rem/1.5 ui-monospace,Menlo,Consolas,monospace}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+p code,li code{background:var(--soft);padding:.05rem .3rem;border-radius:3px}
+table{border-collapse:collapse;width:100%;font:.88rem system-ui,sans-serif;margin:1rem 0}
+th,td{border-bottom:1px solid var(--line);padding:.4rem .5rem;text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{background:var(--soft)}
+.tablewrap{overflow-x:auto}
+.note{background:var(--warn);border:1px solid #f0d9a8;border-radius:4px;padding:.7rem 1rem;font-size:.93rem}
+.rq{background:#eef5fc;border-left:4px solid var(--acc);padding:.6rem 1rem;margin:.6rem 0}
+footer{margin:3rem 0 2rem;font:.85rem system-ui,sans-serif;color:var(--muted);border-top:1px solid var(--line);padding-top:1rem}
+ol.refs li{margin-bottom:.6rem;font-size:.93rem}
+@media(max-width:600px){body{font-size:16px}.plot{height:380px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="meta">Projeto Final · Linguagem de Programação (Análise e Visualização de Dados com Python)</div>
+  <h1>Expansão e desconcentração dos cursos de graduação presenciais nas 12 maiores capitais brasileiras (2000–2022)</h1>
+  <div class="meta">
+    <strong>João Victor Teixeira</strong> · <strong>Renan Braga Gomes</strong><br>
+    Bacharelado em Sistemas de Informação, 6º período — Faculdade UniLaSalle<br>
+    Professor: Alexandre Louzada · Semestre 2026.2
+  </div>
+  <div class="badges">
+    <a class="gh" href="https://github.com/SEU-USUARIO/cursos-graduacao-capitais">⌥ Repositório no GitHub</a>
+    <span>Python · pandas · Plotly</span><span>FAIR</span><span>Código: MIT</span><span>Dados/Texto: CC BY 4.0</span><span>Fonte: INEP / Data.Rio</span>
+  </div>
+</div></header>
+
+<main class="wrap">
+<section class="abstract" id="resumo">
+<h2>Resumo</h2>
+<p>Este estudo analisa a evolução do número de cursos de graduação presenciais no Brasil e nas 12 maiores capitais entre 2000 e 2022, a partir da Tabela 913 do Data.Rio, construída com dados do INEP. Foi desenvolvido um pipeline reprodutível em Python que converte 23 abas anuais em formato tidy, valida a consistência dos totais e deriva métricas de crescimento, participação, ranking e concentração. Os resultados mostram que a oferta nacional passou de 10.585 para 35.765 cursos (+237,9%), com expansão de 11,3% ao ano até 2009, desaceleração para 2,6% ao ano na década seguinte e retração em 2020–2021. A participação das capitais permaneceu entre 25,7% e 29,4% do total, com um degrau comum a todas as capitais em 2009. Entre as capitais, o crescimento foi inversamente associado ao nível inicial (ρ de Spearman = −0,69), e o índice de Gini caiu de 0,394 para 0,309, indicando desconcentração. O Rio de Janeiro apresentou o menor ritmo de expansão (4,1% ao ano) e perdeu 11,1% dos cursos desde o pico de 2019. Os dados medem cursos, não matrículas, e as explicações para as inflexões permanecem como hipóteses.</p>
+<p class="meta"><strong>Palavras-chave:</strong> ensino superior; cursos de graduação; capitais brasileiras; análise exploratória de dados; ciência aberta.</p>
+</section>
+
+<nav aria-label="Seções"><a href="#intro">1. Introdução</a><a href="#metodo">2. Metodologia</a><a href="#resultados">3. Resultados</a><a href="#conclusao">4. Conclusão</a><a href="#fair">5. FAIR</a><a href="#refs">6. Referências</a></nav>
+
+<h2 id="intro">1. Introdução</h2>
+<p>A oferta de cursos de graduação é um indicador direto da capacidade do sistema de ensino superior de atender à demanda por qualificação. Entre 2000 e 2022 o Brasil viveu um ciclo de expansão, estímulo a financiamento estudantil, interiorização e, mais recentemente, a crise sanitária. Entender se esse ciclo foi uniforme entre as grandes capitais, onde se concentram universidades tradicionais e mercados de trabalho qualificados, ajuda a discutir desigualdades regionais de acesso. O recorte também é de interesse local: a base é publicada pelo Data.Rio, portal de dados abertos da cidade do Rio de Janeiro, que permite comparar a capital fluminense com as demais.</p>
+<p>O estudo responde a três perguntas de pesquisa:</p>
+<div class="rq"><strong>RQ1.</strong> Como evoluiu o número de cursos presenciais no Brasil e nas 12 maiores capitais entre 2000 e 2022, e em que anos ocorreram inflexões?</div>
+<div class="rq"><strong>RQ2.</strong> A participação das 12 capitais no total nacional mudou ao longo do período, e a distribuição entre elas ficou mais ou menos concentrada?</div>
+<div class="rq"><strong>RQ3.</strong> Quais capitais cresceram mais e menos, e o nível inicial explica o ritmo de crescimento? Como se posiciona o Rio de Janeiro?</div>
+
+<h2 id="metodo">2. Metodologia e Pipeline de Dados</h2>
+<h3>2.1 Fonte e granularidade</h3>
+<p>Os dados vêm da <em>Tabela 913 – Ensino Superior – Número e distribuição percentual dos cursos de graduação presenciais – Brasil e suas 12 maiores capitais</em> (Data.Rio), com fonte primária no Cadastro das Instituições de Educação Superior e na Sinopse do Censo da Educação Superior, do INEP. O arquivo <code>913.xls</code> traz uma aba por ano (2000–2022). Cada aba contém o total do Brasil, o agregado “12 Capitais” e as 12 capitais, com número de cursos e percentual sobre o Brasil. A granularidade é <strong>ano × localidade</strong>: 23 anos × 14 linhas = 322 observações. A unidade é o <strong>curso</strong> (não matrícula, vaga ou instituição) e apenas a modalidade presencial.</p>
+<h3>2.2 Tratamento</h3>
+<ul>
+<li><strong>Estrutura:</strong> cada aba tem cabeçalho institucional e rodapé; as linhas são localizadas pelo conteúdo (“Capitais”, “Fonte”), não por posição. A ordem das capitais muda a cada ano, então a chave é o nome.</li>
+<li><strong>Tipos:</strong> em 2022 os totais vieram como texto com espaço de milhar (<code>"35 765"</code>); foram convertidos para inteiro. Percentuais são recalculados como <code>total / Brasil × 100</code> (erro máximo frente ao oficial: 0,0495 p.p., arredondamento).</li>
+<li><strong>Ausentes e descartes:</strong> 0 valores nulos nos totais; a única aba descartada (<code>ESRI_MAPINFO_SHEET</code>, vazia) é registrada em <code>qa_report.json</code>. Nada é imputado.</li>
+<li><strong>Validação:</strong> a soma das 12 capitais coincide com o agregado informado em todos os 23 anos; não há duplicatas ano–localidade.</li>
+<li><strong>Métricas derivadas:</strong> variação anual, índice base 2000, CAGR, ranking, participação no Brasil e nas 12 capitais, Gini, HHI, coeficiente de variação e outliers por z-score robusto (mediana/MAD).</li>
+</ul>
+<pre><code>def extrair_aba(bruto, ano):
+    col0 = bruto.iloc[:, 0].astype(str).str.strip()
+    idx_cab = col0[col0.eq("Capitais")].index            # localiza pelo conteúdo
+    corpo = bruto.iloc[idx_cab[0] + 1:, :3].copy()
+    corpo.columns = ["localidade", "total_raw", "pct_raw"]
+    corpo = corpo.dropna(subset=["localidade"])
+    corpo["total_cursos"] = corpo["total_raw"].map(parse_inteiro)   # '35 765' -> 35765
+    ...
+
+def construir_metricas(longo):
+    g = df.groupby("localidade")["total_cursos"]
+    df["var_pct_anual"] = g.pct_change() * 100
+    df["indice_base_2000"] = df["total_cursos"] / g.transform("first") * 100
+    df["pct_brasil_calc"] = df["total_cursos"] / df["ano"].map(brasil) * 100</code></pre>
+<p>O pipeline completo está em <code>src/etl.py</code> e é determinístico: a mesma entrada produz as mesmas saídas, e o SHA-256 do arquivo bruto é gravado no relatório de qualidade.</p>
+
+<h2 id="resultados">3. Resultados e Discussão</h2>
+<h3>3.1 RQ1 — Evolução e inflexões</h3>
+<p>O total nacional passou de 10.585 (2000) para 35.765 cursos (2022), +237,9% (5,69% ao ano). As 12 capitais foram de 2.920 para 10.245 (+250,9%; 5,87% ao ano). O ritmo, porém, não foi constante: de 2000 a 2009 o crescimento foi de 11,3% ao ano no Brasil e 12,1% nas capitais; de 2009 a 2019, de 2,6% e 2,5%; e de 2019 a 2022, de −0,1% e −0,7%. A variação anual mediana das capitais caiu de 10,7% (2001–2008) para 2,7% (2010–2019).</p>
+<figure><img src="assets/fig1_evolucao.png" alt="Evolução do número de cursos e variação anual, Brasil e 12 capitais" loading="lazy"><figcaption>Figura 1 – Evolução e variação anual. Fonte: INEP via Data.Rio.</figcaption></figure>
+<p>Duas inflexões se destacam. <strong>2009</strong>: o Brasil ganhou 3.108 cursos (+12,6%), enquanto as capitais ganharam 1.402 (+20,7%), o maior salto da série nas capitais; as 12 capitais cresceram nesse ano (de +12,9% a +43,0%). Quando todas as unidades se movem juntas, é plausível um fator sistêmico, como políticas de expansão e financiamento do período (ProUni, Reuni, Fies) ou mudanças de registro no cadastro do INEP — <em>hipóteses que este estudo não testa</em>. <strong>2020–2021</strong>: o total nacional caiu 1,2% entre 2019 e 2021 (35.898 → 35.465) e as capitais 2,3%, com recuperação parcial em 2022, coerente com o período pandêmico, embora os dados não permitam atribuir causa.</p>
+<p><strong>Gráfico interativo 1.</strong> Alterne entre número de cursos e índice (2000 = 100); clique na legenda para isolar capitais.</p>
+<div id="p1" class="plot"></div>
+
+<h3>3.2 RQ2 — Participação e concentração</h3>
+<p>A fatia das 12 capitais no total nacional oscilou entre 25,7% (2004) e 29,4% (2009), terminando em 28,6% em 2022 (27,6% em 2000). Não houve, portanto, concentração nem perda sistemática de peso: o “resto do Brasil” cresceu a 5,62% ao ano, ritmo muito próximo ao das capitais (5,87%). O principal movimento é o degrau de +2,0 p.p. em 2009, discutido acima.</p>
+<figure><img src="assets/fig2_participacao.png" alt="Participação das 12 capitais no total nacional" loading="lazy"><figcaption>Figura 2 – Participação das 12 capitais. Fonte: INEP via Data.Rio.</figcaption></figure>
+<p>Já <em>entre</em> as capitais houve desconcentração: o índice de Gini caiu de 0,394 (2000) para 0,309 (2022), o coeficiente de variação de 0,93 para 0,76 e o HHI de 1.494 para 1.272. A parcela de São Paulo nos cursos das 12 capitais subiu a 32,2% em 2005 e recuou para 26,9% em 2022.</p>
+<figure><img src="assets/fig5_concentracao.png" alt="Gini e participação de São Paulo entre as 12 capitais" loading="lazy"><figcaption>Figura 5 – Concentração entre as capitais. Fonte: INEP via Data.Rio.</figcaption></figure>
+<div id="p2" class="plot"></div>
+
+<h3>3.3 RQ3 — Ritmos de crescimento e o caso do Rio de Janeiro</h3>
+<p>Fortaleza (8,2% ao ano; 108 → 614), Belo Horizonte (7,4%) e Goiânia (7,0%) lideraram o crescimento; Curitiba (5,3%) e o Rio de Janeiro (4,1%) ficaram nas últimas posições entre as capitais. Há associação negativa entre o nível inicial e o crescimento: ρ de Spearman = −0,69 (p = 0,014) e r de Pearson entre log(nível inicial) e CAGR = −0,73 (p = 0,007), com n = 12, ou seja, <strong>convergência</strong>: capitais menores crescem mais rápido. Com apenas 12 observações, trata-se de evidência exploratória.</p>
+<figure><img src="assets/fig3_cagr.png" alt="CAGR por capital" loading="lazy"><figcaption>Figura 3 – Taxa de crescimento anual composta por capital. Fonte: INEP via Data.Rio.</figcaption></figure>
+<div id="p3" class="plot"></div>
+<p>O <strong>Rio de Janeiro</strong> manteve o 2º lugar durante os 23 anos, mas sua distância para São Paulo aumentou: a razão RJ/SP caiu de 0,66 para 0,49 e a participação do Rio no total nacional foi de 5,25% para 3,75%. O Rio chegou a 1.509 cursos em 2019 e terminou 2022 com 1.341 (−11,1%), a maior queda desde o pico entre as capitais. A série também registra retração de 9,8% em 2013 (1.395 → 1.258), sinalizada como outlier (z robusto = −3,5). Uma explicação, que não pode ser verificada com estes dados agregados, é a consolidação ou o encerramento de cursos em vez de menor demanda; seriam necessários dados por instituição e matrículas.</p>
+<figure><img src="assets/fig4_ranking.png" alt="Ranking das capitais por número de cursos" loading="lazy"><figcaption>Figura 4 – Ranking anual. Curitiba caiu da 3ª para a 5ª posição; Fortaleza subiu da 10ª para a 7ª; Belo Horizonte, da 6ª para a 3ª. Fonte: INEP via Data.Rio.</figcaption></figure>
+<div id="p4" class="plot"></div>
+
+<h3>3.4 Outliers</h3>
+<p>Das 264 variações anuais capital-ano, 14 atingem +20% ou mais, e todas ocorrem até 2009: cinco delas no próprio 2009 (Porto Alegre +43,0%, Rio +33,6%, Salvador +33,3%, Goiânia +24,4%, Belo Horizonte +21,9%); as demais nos primeiros anos (por exemplo, Goiânia +29,9% em 2001). O mapa de calor evidencia o padrão: as cores intensas formam uma coluna vertical em 2009, e o período pós-2010 é dominado por variações pequenas.</p>
+<figure><img src="assets/fig6_heatmap.png" alt="Mapa de calor das variações anuais por capital" loading="lazy"><figcaption>Figura 6 – Variação anual por capital. Fonte: INEP via Data.Rio.</figcaption></figure>
+<div id="p5" class="plot"></div>
+
+<h2 id="conclusao">4. Conclusão</h2>
+<p>(RQ1) A oferta de cursos presenciais cresceu mais de três vezes entre 2000 e 2022, mas em três regimes: expansão acelerada até 2009, crescimento lento até 2019 e retração em 2020–2021. (RQ2) As 12 capitais mantiveram participação entre 26% e 29%, com degrau em 2009, mas a distribuição entre elas ficou menos concentrada (Gini de 0,394 para 0,309). (RQ3) Capitais menores cresceram mais; o Rio de Janeiro teve o menor CAGR e a maior perda desde o pico.</p>
+<p><strong>Limitações.</strong> (i) A unidade é o curso, sem informação de vagas, matrículas ou EAD. (ii) Os dados não são normalizados por população. (iii) A fonte e a data de acesso do INEP variam entre abas, e possíveis mudanças de metodologia (como em 2009) não são documentadas. (iv) A amostra de 12 capitais limita a inferência estatística.</p>
+<p><strong>Trabalhos futuros.</strong> Normalizar por população e matrículas, incorporar a modalidade EAD, desagregar por categoria administrativa (pública/privada) e área do curso, e testar formalmente a quebra estrutural de 2009 e o efeito da pandemia.</p>
+
+<h2 id="fair">5. Disponibilidade dos Dados e Declaração FAIR</h2>
+<p>Este trabalho segue os princípios FAIR: <strong>Findable</strong> (README com resumo, palavras-chave e link para a fonte; autoria e instituição identificadas); <strong>Accessible</strong> (repositório público, sem credenciais ou serviços pagos; artigo no GitHub Pages); <strong>Interoperable</strong> (dados processados em <code>csv.gz</code>/<code>csv</code>/<code>json</code> e dicionário em <code>data/data_dictionary.md</code>); <strong>Reusable</strong> (licença MIT para o código, CC BY 4.0 para dados e texto, <code>requirements.txt</code> com versões fixas).</p>
+<pre><code>git clone https://github.com/SEU-USUARIO/cursos-graduacao-capitais.git
+cd cursos-graduacao-capitais
+python -m venv .venv &amp;&amp; source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python -m src.etl        # gera data/processed/
+python -m src.figures    # gera docs/assets/ (PNG + data.js)</code></pre>
+
+<h2 id="refs">6. Referências</h2>
+<ol class="refs">
+<li>DATA.RIO. <strong>Tabela 913 – Ensino Superior – Número e distribuição percentual dos cursos de graduação presenciais – Brasil e suas 12 maiores capitais</strong>. Rio de Janeiro: Prefeitura da Cidade do Rio de Janeiro. Disponível em: https://www.data.rio. Acesso em: nov. 2026.</li>
+<li>INSTITUTO NACIONAL DE ESTUDOS E PESQUISAS EDUCACIONAIS ANÍSIO TEIXEIRA (INEP). <strong>Cadastro das Instituições de Educação Superior</strong> e <strong>Sinopse do Censo da Educação Superior</strong>. Brasília: INEP. Disponível em: http://www.inep.gov.br.</li>
+<li>WILKINSON, M. D. et al. The FAIR Guiding Principles for scientific data management and stewardship. <strong>Scientific Data</strong>, v. 3, art. 160018, 2016.</li>
+<li>MCKINNEY, W. Data structures for statistical computing in Python. In: PYTHON IN SCIENCE CONFERENCE, 9., 2010. <strong>Proceedings</strong>... 2010. p. 56–61.</li>
+<li>HUNTER, J. D. Matplotlib: a 2D graphics environment. <strong>Computing in Science &amp; Engineering</strong>, v. 9, n. 3, p. 90–95, 2007.</li>
+<li>PLOTLY TECHNOLOGIES INC. <strong>Collaborative data science</strong>. Montreal, 2015. Disponível em: https://plot.ly.</li>
+<li>VIRTANEN, P. et al. SciPy 1.0: fundamental algorithms for scientific computing in Python. <strong>Nature Methods</strong>, v. 17, p. 261–272, 2020.</li>
+</ol>
+<footer>© 2026 João Victor Teixeira e Renan Braga Gomes · Faculdade UniLaSalle · Prof. Alexandre Louzada · Texto e dados: CC BY 4.0 · Código: MIT.</footer>
+</main>
+
+<script>
+(function(){
+  var D = window.DATA, A = D.anos;
+  var cfg = {responsive:true, displaylogo:false};
+  var base = {margin:{l:60,r:20,t:40,b:45}, font:{family:"system-ui,sans-serif",size:12}, legend:{orientation:"h",y:-0.22}, hovermode:"x unified"};
+  function L(o){ return Object.assign({}, base, o); }
+
+  // 1. Cursos / índice, com botões
+  var t1 = D.capitais.map(function(c){return {x:A,y:D.cursos[c],name:c,mode:"lines",line:{color:D.cores[c],width:c==="Rio de Janeiro"?4:2}};});
+  var t1i = D.capitais.map(function(c){return D.indice[c];});
+  var t1c = D.capitais.map(function(c){return D.cursos[c];});
+  Plotly.newPlot("p1", t1, L({title:"Cursos de graduação presenciais por capital", yaxis:{title:"Cursos"},
+    updatemenus:[{type:"buttons",direction:"right",x:0,y:1.16,buttons:[
+      {label:"Nº de cursos",method:"update",args:[{y:t1c},{"yaxis.title":"Cursos"}]},
+      {label:"Índice (2000 = 100)",method:"update",args:[{y:t1i},{"yaxis.title":"Índice (2000 = 100)"}]}]}]}), cfg);
+
+  // 2. Participação das 12 capitais no Brasil + Gini
+  Plotly.newPlot("p2", [
+    {x:A,y:D.pct_brasil["12 Capitais"],name:"12 capitais no Brasil (%)",mode:"lines+markers",line:{color:"#0072B2",width:3}},
+    {x:A,y:D.gini.map(function(v){return v*100;}),name:"Gini × 100 (entre capitais)",mode:"lines",line:{color:"#D55E00",width:3,dash:"dot"}}
+  ], L({title:"Participação das capitais e desigualdade entre elas", yaxis:{title:"% / índice"}}), cfg);
+
+  // 3. Convergência: nível inicial x CAGR
+  var R = D.resumo;
+  Plotly.newPlot("p3", [{x:R.map(function(r){return r.cursos_2000;}), y:R.map(function(r){return r.cagr_pct;}),
+    text:R.map(function(r){return r.localidade;}), mode:"markers+text", textposition:"top center",
+    marker:{size:R.map(function(r){return Math.sqrt(r.cursos_2022)/1.6;}), color:R.map(function(r){return D.cores[r.localidade];}), opacity:.85},
+    hovertemplate:"%{text}<br>Cursos em 2000: %{x}<br>CAGR: %{y:.2f}% a.a.<extra></extra>"}],
+    L({title:"Nível inicial (2000, escala log) × crescimento anual composto (tamanho = cursos em 2022)", hovermode:"closest",
+       xaxis:{type:"log",title:"Cursos em 2000"}, yaxis:{title:"CAGR 2000–2022 (% a.a.)",range:[3.5,9]}, showlegend:false}), cfg);
+
+  // 4. Ranking (bump)
+  var t4 = D.capitais.map(function(c){return {x:A,y:D.ranking[c],name:c,mode:"lines+markers",line:{color:D.cores[c],width:3},marker:{size:6}};});
+  Plotly.newPlot("p4", t4, L({title:"Posição no ranking de cursos (1 = mais cursos)", height:480,
+    yaxis:{autorange:"reversed",dtick:1,title:"Posição"}, hovermode:"closest"}), cfg);
+
+  // 5. Heatmap de variações
+  var ordem = D.capitais.slice().sort(function(a,b){return D.cursos[b][A.length-1]-D.cursos[a][A.length-1];});
+  Plotly.newPlot("p5", [{z:ordem.map(function(c){return D.var_pct[c];}), x:A, y:ordem, type:"heatmap",
+    colorscale:"RdBu", zmin:-30, zmax:30, colorbar:{title:"%"},
+    hovertemplate:"%{y}, %{x}: %{z:.1f}%<extra></extra>"}],
+    L({title:"Variação anual (%) por capital", margin:{l:110,r:20,t:40,b:45}, hovermode:"closest", yaxis:{autorange:"reversed"}}), cfg);
+})();
+</script>
+</body>
+</html>

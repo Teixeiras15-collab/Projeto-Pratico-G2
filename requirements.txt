@@ -1,0 +1,15 @@
+# Ambiente de desenvolvimento (versões congeladas)
+# pandas/numpy/matplotlib/seaborn/scipy/openpyxl: versões usadas no desenvolvimento.
+# xlrd/plotly/pyarrow/jupyter: versões estáveis conhecidas.
+# Para regenerar a partir do SEU ambiente:  pip freeze > requirements.txt
+numpy==2.5.4
+pandas==3.0.6
+scipy==1.18.1
+matplotlib==3.11.2
+seaborn==0.13.2
+openpyxl==3.1.5
+xlrd==2.0.1
+plotly==5.24.1
+pyarrow==17.0.0
+jupyter==1.1.1
+statsmodels==0.14.4

@@ -1,0 +1,11 @@
+{
+  "spearman_nivel_inicial_vs_cagr": [
+    -0.685,
+    0.0139
+  ],
+  "pearson_logNivelInicial_vs_cagr": [
+    -0.734,
+    0.0066
+  ],
+  "n_capitais": 12
+}
